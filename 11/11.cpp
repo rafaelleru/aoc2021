@@ -68,10 +68,44 @@ int part_one(std::vector<std::vector<int>>& grid){
 				}
 			}
 		}
-
 	}
 
 	return count;
+}
+
+int part_two(std::vector<std::vector<int>>& grid){
+
+	bool synced = false;
+	// We need to keep in mind the steps from part 1
+	int step = 100;
+	int grid_sum = 0;
+	while(!synced){
+		grid_sum = 0;
+		step++;
+		for(int x=0; x<grid.size(); ++x){
+			for(int y=0; y<grid[0].size(); ++y){
+				update_position(grid, x, y);
+			}
+		}
+
+		// count the flashes
+		for(int x=0; x<grid.size(); ++x){
+			for(int y=0; y<grid[0].size(); ++y){
+				if (grid[x][y] > 9) {
+					grid[x][y] = 0;
+				}
+
+				grid_sum += grid[x][y];
+			}
+		}
+
+		synced = grid_sum == 0;
+
+	}
+
+	print_grid(grid);
+	return step;
+
 }
 
 
@@ -90,5 +124,8 @@ int main(int argc, char* argv[]) {
 	int sol1 = part_one(grid);
 
 	std::cout << sol1 << std::endl;
+
+	int step = part_two(grid);
+	std::cout << "Step to sync is: " << step << std::endl;
 
 }
